@@ -2,6 +2,7 @@ package com.beersbussines.respositories;
 
 import java.awt.print.Pageable;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +17,8 @@ public interface BeerRepository extends JpaRepository<Beer, Integer>{
 	
 	@Query("select u from Beer u where u.beername like %?1%")
 	List<Beer> getBerByName(String beername);
+	
+	@Query("select u from Beer u where u.beername like ?1 and u.type like ?2")
+	Optional<Beer> queryMultiple(String beername,String type);
 
 }

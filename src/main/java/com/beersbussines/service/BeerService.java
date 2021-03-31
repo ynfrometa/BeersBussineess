@@ -71,5 +71,9 @@ public class BeerService {
 	public List<Beer> getBerByName(@PathVariable String nameBeer) {
 		return beerRepository.getBerByName(nameBeer);
 	}
+	
+	public Optional<Beer> queryMultiple(@RequestParam (required = false) String beerName,@RequestParam (required = false) String type) {	
+		return beerRepository.queryMultiple(beerName, type);
+	}
 
 }

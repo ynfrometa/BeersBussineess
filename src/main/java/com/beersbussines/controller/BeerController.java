@@ -63,5 +63,10 @@ public class BeerController {
 	public Beer update(@RequestBody Beer newBeer) {
 		return beerService.update(newBeer);
 	}
+	
+	@GetMapping("/query")
+	public Optional<Beer> queryMultiple(@RequestParam(required = false) String beerName,@RequestParam(required = false) String type) {
+		return beerService.queryMultiple(beerName, type);
+	}
 
 }
