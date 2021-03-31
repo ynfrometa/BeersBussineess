@@ -13,6 +13,7 @@ import com.beersbussines.model.Beer;
 import com.beersbussines.model.Manufacturer;
 import com.beersbussines.model.User;
 import com.beersbussines.respositories.BeerRepository;
+import com.beersbussines.respositories.ManufacturerRepository;
 import com.beersbussines.respositories.UserRepository;
 
 @SpringBootTest
@@ -26,11 +27,14 @@ class BeersBussineessApplicationTests {
 
 	@Autowired
 	BeerRepository beerRepository;
+	
+	@Autowired
+	ManufacturerRepository manufacturerRepository;
 
 	@Test
 	void createUser() {
 		User user = new User();
-		user.setUser("AdminPrueba");
+		user.setUser("AdminPrueba1");
 		user.setPassword(passwordEncoder.encode("1234"));
 		User userCreated = userRepository.save(user);
 		assertTrue(userCreated.getUser().equals(user.getUser()));
@@ -81,8 +85,17 @@ class BeersBussineessApplicationTests {
 
 	@Test
 	void deleteUser() {
-		User user = (User) userRepository.findByUser("AdminPrueba");
+		User user = (User) userRepository.findByUser("AdminPrueba1");
 		userRepository.deleteById(user.getUser_id());
 
 	}
+	
+	@Test
+	void addManufacturer() {
+		Manufacturer manufacturer = new Manufacturer();
+		manufacturer.setManufacturer_id(1);
+		manufacturer.setManufacturername("Yoanni");
+		manufacturerRepository.save(manufacturer);
+	}
+	
 }
