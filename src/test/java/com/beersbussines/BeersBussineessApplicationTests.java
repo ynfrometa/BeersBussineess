@@ -2,6 +2,7 @@ package com.beersbussines;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ class BeersBussineessApplicationTests {
 
 	@Autowired
 	BeerRepository beerRepository;
-	
+
 	@Autowired
 	ManufacturerRepository manufacturerRepository;
 
@@ -42,29 +43,42 @@ class BeersBussineessApplicationTests {
 
 	@Test
 	void getBeerById() {
-		Beer beerGet = beerRepository.getOne(12);
-		assertTrue(beerGet.getBeer_id() == 12);
+		
+		List<Beer> beerGet = beerRepository.getBerByName("CervezaPrueba1");
+		Beer beerGet2 = beerRepository.getOne(beerGet.get(0).getBeer_id());
+		assertTrue(beerGet2.getBeer_id() == beerGet.get(0).getBeer_id());
 	}
 
 	@Test
 	void addBeer() {
-		Beer beer = new Beer();
-		beer.setBeername("CervezaPrueba3");
-		beer.setDescription("Descripion Prueba");
-		beer.setGraduation("1.2");
-		Manufacturer manufacturer = new Manufacturer();
-		manufacturer.setManufacturer_id(1);
-		manufacturer.setManufacturername("ManufacturerPrueba");
-		beer.setManufacturer(manufacturer);
-		beerRepository.save(beer);
 
-		List<Beer> beerGet = beerRepository.getBerByName(beer.getBeername());
-		assertTrue(beerGet.get(0).getBeername().equals(beer.getBeername()));
+		ArrayList<String> listBeerName = new ArrayList<String>();
+		listBeerName.add("CervezaPrueba1");
+		listBeerName.add("CervezaPrueba2");
+		listBeerName.add("CervezaPrueba3");
+		
+		for (int i = 0; i < listBeerName.size(); i++) {
+
+			Beer beer = new Beer();
+			beer.setBeername(listBeerName.get(i));
+			beer.setDescription("Descripion Prueba");
+			beer.setGraduation("1.2");
+			Manufacturer manufacturer = new Manufacturer();
+			manufacturer.setManufacturer_id(1);
+			manufacturer.setManufacturername("ManufacturerPrueba");
+			beer.setManufacturer(manufacturer);
+			beerRepository.save(beer);
+
+			List<Beer> beerGet = beerRepository.getBerByName(beer.getBeername());
+			assertTrue(beerGet.get(0).getBeername().equals(beer.getBeername()));
+
+		}
+
 	}
 
 	@Test
 	void getBeerByBeerName() {
-		List<Beer> beerGet = beerRepository.getBerByName("yoanni");
+		List<Beer> beerGet = beerRepository.getBerByName("CervezaPrueba1");
 		assertTrue(beerGet.size() > 0);
 	}
 
@@ -89,7 +103,7 @@ class BeersBussineessApplicationTests {
 		userRepository.deleteById(user.getUser_id());
 
 	}
-	
+
 	@Test
 	void addManufacturer() {
 		Manufacturer manufacturer = new Manufacturer();
@@ -97,5 +111,5 @@ class BeersBussineessApplicationTests {
 		manufacturer.setManufacturername("Yoanni");
 		manufacturerRepository.save(manufacturer);
 	}
-	
+
 }
